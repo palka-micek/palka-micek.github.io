@@ -33,8 +33,8 @@ var switchServing = false //it switch serving, if true ("0" -> "1"; "1" -> "0")
 function scored(who,writeHistory) { //it writes score and check if someone won or someone has score 11 or higher
     //writing part
     score[who]++;
-    document.querySelector(".score" + who).textContent = score[who];
-    if (writeHistory === true){
+    document.querySelector(".score" + who).textContent = score[Number(who)];
+    if (writeHistory){
         gameHistory.push(who);
     }
     //checking part
@@ -48,7 +48,9 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
             switchServing = true;
         };
         //reset of score
-        reset(false,false)
+        score = [0, 0];
+        document.querySelector(".score0").textContent = 0;
+        document.querySelector(".score1").textContent = 0;
     };
     //serving part
     if (score[0] + score[1] <= 20){
@@ -67,7 +69,7 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
             serving = "1"
         };
     };
-    if (switchServing === true){ //switch
+    if (switchServing){ //switch
         if (serving === "0"){
             serving = "1"
         }
@@ -87,8 +89,9 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
 };
 
 //function reset
-function reset(gameHistory, sets) { //you can choose what do you want reset
+function reset() { //only for button
     score = [0, 0];
+    sets = [0, 0];
     gameHistory = [];
     serving = "0";
     switchServing = false
@@ -97,23 +100,22 @@ function reset(gameHistory, sets) { //you can choose what do you want reset
     document.querySelector(".score1").textContent = 0;
     document.querySelector(".player0").classList.add("serving")
     document.querySelector(".player1").classList.remove("serving")
-    if (gameHistory === true){
-        gameHistory = [];
-    };
-    if (sets === true){
-        sets = [0, 0];
-        document.querySelector(".sets").textContent = "0 : 0";
-    };
+    document.querySelector(".sets").textContent = "0 : 0";
+
 };
 
 function back() {
     gameHistory.pop();
-    reset(false,true);
-    for (i = 0;i <= gameHistory.length; i++){
+    //reset part
+    score = [0, 0];
+    sets = [0, 0];
+    document.querySelector(".score0").textContent = 0;
+    document.querySelector(".score1").textContent = 0;
+    document.querySelector(".player0").classList.add("serving")
+    document.querySelector(".player1").classList.remove("serving")
+    document.querySelector(".sets").textContent = "0 : 0";
+    //simulation part
+    for (i = 0;i < gameHistory.length; i++){
         scored(gameHistory[i],false)
-        if (i === 500){
-            console.log("nouzová brzda");
-            break
-        };
     };
 };
