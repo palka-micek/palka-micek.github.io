@@ -1,0 +1,39 @@
+@media (max-width: 660px) {
+    .players {
+        display: block;
+        height: 50%;
+        width: 100%;
+    }
+    .player {
+        width: 40%;
+    }
+    .score {
+        width: 90%;
+    }
+    .middleBTNs {
+
+        display: block;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .middleBTN {
+        position: absolute;
+        width: 40%;
+    }
+    .imgBTN {
+        max-width: 100px;
+        width: 100%;
+    }
+    .back {
+        left: 10px;
+    }
+    .reset {
+        right: 10px;
+    }
+    /* sets */
+    .sets {
+        /* ... */
+        text-align: center;
+    }
+}

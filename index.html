@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="queries.css">
+    <title>Stolní tenis</title>
+</head>
+<body>
+    <div class="allPage">
+        <div class="playground">
+            <!-- players -->
+            <div class="players">
+                <div class="player player0 serving">
+                    <p class="name name0">
+                        A
+                    </p>
+                    <button onclick="scored('0',true)" class="score score0">
+                        0
+                    </button>
+                </div>
+
+                <div class="player player1">
+                    <p class="name name1">
+                        B
+                    </p>
+                    <button onclick="scored('1',true)" class="score score1 ">
+                        0
+                    </button>
+                </div>
+            </div>
+
+            <!-- buttons in the middle (back and reset) -->
+            <div class="middleBTNs">
+                <button onclick="back()" class="middleBTN back">
+                    <img src="img/back.png" alt="back" class="imgBTN">
+                    <p>
+                        zpět
+                    </p>
+                </button>
+                
+                <button onclick="reset(true, true)" class="middleBTN reset">
+                    <img src="img/reset.png" alt="reset" class="imgBTN">
+                    <p>
+                        reset
+                    </p>
+                </button>
+            </div>
+            <!-- sets at the bottom -->
+            <div class="sets">
+                <p>0 : 0</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
