@@ -35,12 +35,40 @@ function setsToWinInput() {
         document.querySelector(".maxSetsInput").focus();
     };
 };
-//if you press enter it closes or  MaxSetsInput
-document.querySelector(".maxSetsInput").addEventListener('keydown', function(event) {
-    if (event.key === 'enter') {
+//you can use arrows, and r
+document.addEventListener("keydown", function(event) {
+    if (event.key === 'ArrowLeft') {
+        if (document.querySelector(".player0").classList.contains("right")) {
+            scored(1, true)
+        }
+        else {
+            scored(0, true)
+        };
+
+    }
+    else if (event.key === 'ArrowRight') {
+        if (document.querySelector(".player0").classList.contains("right")) {
+            scored(0, true)
+        }
+        else {
+            scored(1, true)
+        };
+    }
+    else if (event.key === 'ArrowDown') {
+        if (document.querySelector(".maxSetsInput").disabled){
+        document.querySelector(".sets").classList.remove("active");
+        }
+    }
+    else if (event.key === 'ArrowUp') {
+        document.querySelector(".sets").classList.add("active");
         document.querySelector(".maxSetsInput").focus();
-        document.querySelector(".sets").classList.toggle("active"); // it hides or shows sets to win    
-    };
+    }
+    else if (event.key === 'r') {
+        reset()
+    }
+    else if (event.key === 'e') {
+        back()
+    }
 });
 
 //game ----------
