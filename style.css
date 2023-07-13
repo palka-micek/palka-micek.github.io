@@ -66,13 +66,21 @@
     font-size: 50px;
     border: 0;
     border-radius: 20px;
-    background: #ca2222;
     color: white;
     transition: all 300ms ease-out;
     cursor: pointer;
 }
-.score:hover {
-    background: #d62d2d;
+.score0 {
+    background: #ca2222;
+}
+.score1 {
+    background: #ecc30a;
+}
+.score0:hover {
+    background: #da3232;
+}
+.score1:hover {
+    background: #fcd31a;
 }
 
 /* buttons in the middle */
