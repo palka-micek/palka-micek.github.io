@@ -1,8 +1,8 @@
 // rename ----------
-var name0 = "0"; //player who is first
-var name1 = "1"; //player who is second
+let name0 = "0"; //player who is first
+let name1 = "1"; //player who is second
 
-var renameQuestion = "zadej jméno" //text to be asked when changing names
+let renameQuestion = "zadej jméno" //text to be asked when changing names
 
 function rename(who, newName) { //who = "0" or "1", newName is just new name (for example "Sojty")
     document.querySelector(".name" + who).textContent = newName
@@ -38,21 +38,21 @@ function setsToWinInput() {
 //if you press enter it closes or  MaxSetsInput
 document.querySelector(".maxSetsInput").addEventListener('keydown', function(event) {
     if (event.key === 'enter') {
-        document.querySelector(".maxSetsInput").focus()
+        document.querySelector(".maxSetsInput").focus();
         document.querySelector(".sets").classList.toggle("active"); // it hides or shows sets to win    
     };
 });
 
 //game ----------
-var score = [0, 0]; //current score, index 0 is player0 and index 1 is player1
-var sets = [0, 0]; //same but these are sets
-var gameHistory = []; //for function "back()"
-var setsToWin; //how many set you need to win
-var serving = "0"; //who has serving, = "0" or "1"
-var switchServing = false; //it switch serving, if true ("0" -> "1"; "1" -> "0")
-var switchSets = false; //it switch sets, if true ("1:2" -> "2:1")
-var switchSetsBefore = false; //if players have to change side
-var blockGame = false;
+let score = [0, 0]; //current score, index 0 is player0 and index 1 is player1
+let sets = [0, 0]; //same but these are sets
+let gameHistory = []; //for function "back()"
+let setsToWin; //how many set you need to win
+let serving = "0"; //who has serving, = "0" or "1"
+let switchServing = false; //it switch serving, if true ("0" -> "1"; "1" -> "0")
+let switchSets = false; //it switch sets, if true ("1:2" -> "2:1")
+let switchSetsBefore = false; //if players have to change side
+let blockGame = false;
 const changeSide = new Audio("audio/changeSide.mp3");
 const end = new Audio("audio/end.mp3");
 
@@ -68,10 +68,19 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
         setsToWin = Number(document.querySelector(".maxSetsInput").value);
     }
     else { //no
-        document.querySelector(".sets").classList.add("active"); //it shows setToWinInput
-        document.querySelector(".maxSetsInput").focus();
-        throw new Error("Set the number of sets to win.");
+        if (getCookie("setsToWin")!= null){ //it trys load SetsToWin from cookie
+            setsToWin = Number(getCookie("setsToWin"));
+            document.querySelector(".maxSetsInput").value = Number(getCookie("setsToWin"));
+        }
+        else {
+            document.querySelector(".sets").classList.add("active"); //it shows setToWinInput
+            document.querySelector(".maxSetsInput").focus();
+            throw new Error("Set the number of sets to win.");
+        };
     };
+    //cookies
+    setCookie("setsToWin",setsToWin,7);
+
     //writing part
     score[who]++;
     document.querySelector(".score" + who).textContent = score[Number(who)];
@@ -225,3 +234,26 @@ function back() { //removes one turn
         scored(gameHistory[i],false)
     };
 };
+
+//cookies functions
+function getCookie(name) {
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0)
+            return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+function setCookie(name, value, exdays) {
+    let expires = "";
+    if (exdays) {
+        let date = new Date();
+        date.setTime(date.getTime() + exdays * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+
+    }
+    document.cookie = name + "=" + (encodeURIComponent(value) || "") + expires + "; path=/";
+}
