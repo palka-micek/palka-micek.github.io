@@ -13,7 +13,7 @@
         <div class="playground">
             <!-- players -->
             <div class="players">
-                <div class="player player0 serving">
+                <div class="player player0 serving left">
                     <p class="name name0">
                         A
                     </p>
@@ -22,11 +22,11 @@
                     </button>
                 </div>
 
-                <div class="player player1">
+                <div class="player player1 right">
                     <p class="name name1">
                         B
                     </p>
-                    <button onclick="scored('1',true)" class="score score1 ">
+                    <button onclick="scored('1',true)" class="score score1">
                         0
                     </button>
                 </div>
@@ -49,8 +49,11 @@
                 </button>
             </div>
             <!-- sets at the bottom -->
+            
             <div class="sets">
-                <p>0 : 0</p>
+                <!-- <input type="number" value="1" min="1" step="1"> -->
+                <input type="number" min="1" step="1" placeholder="sety" class="maxSetsInput">
+                <button onclick="setsToWinInput()" class="maxSetsBTN"><p class="writeSetsHere">0 : 0</p></button>
             </div>
 
         </div>
