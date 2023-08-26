@@ -29,10 +29,18 @@ function setsToWinInput() {
     else {
         if (gameHistory.length === 0) { // if the game is not running...
             document.querySelector(".maxSetsInput").disabled = false; // ...you can change sets to win
-        };
+            document.querySelector(".sets").classList.remove("playing")
+            document.querySelector(".sets").classList.add("notPlaying")
+        }
+        else {
+            document.querySelector(".sets").classList.remove("notPlaying")
+            document.querySelector(".sets").classList.add("playing")
+        }
         document.querySelector(".sets").classList.add("active"); //it shows sets to win
-
-        document.querySelector(".maxSetsInput").focus();
+        if (document.querySelector(".sets").classList.contains("notPlaying")){
+            document.querySelector(".maxSetsInput").focus(); 
+        }
+        
     };
 };
 //you can use arrows, and r
@@ -55,13 +63,13 @@ document.addEventListener("keydown", function(event) {
         };
     }
     else if (event.key === 'ArrowDown') {
-        if (document.querySelector(".maxSetsInput").disabled){
         document.querySelector(".sets").classList.remove("active");
-        }
     }
     else if (event.key === 'ArrowUp') {
         document.querySelector(".sets").classList.add("active");
-        document.querySelector(".maxSetsInput").focus();
+        if (document.querySelector(".sets").classList.contains("notPlaying")) {
+            document.querySelector(".maxSetsInput").focus();
+        }
     }
     else if (event.key === 'r') {
         reset()
@@ -78,6 +86,7 @@ let gameHistory = []; //for function "back()"
 let setsToWin; //how many set you need to win
 let serving = "0"; //who has serving, = "0" or "1"
 let switchServing = false; //it switch serving, if true ("0" -> "1"; "1" -> "0")
+let startSwitchServing = false;
 let switchSets = false; //it switch sets, if true ("1:2" -> "2:1")
 let switchSetsBefore = false; //if players have to change side
 let blockGame = false;
@@ -92,7 +101,6 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
 
     }
     else if (Number(document.querySelector(".maxSetsInput").value > 0)){ //yes
-        document.querySelector(".maxSetsInput").disabled = true; //it disables entering sets (because you can't change it during the game)
         setsToWin = Number(document.querySelector(".maxSetsInput").value);
     }
     else { //no
@@ -106,6 +114,8 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
             throw new Error("Set the number of sets to win.");
         };
     };
+    document.querySelector(".sets").classList.remove("notPlaying")
+    document.querySelector(".sets").classList.add("playing")
     //cookies
     setCookie("setsToWin",setsToWin,7);
 
@@ -169,7 +179,7 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
             serving = "1"
         };
     };
-    if (switchServing){ //switch
+    if ((switchServing && !startSwitchServing) || (!switchServing && startSwitchServing)){ //switch
         if (serving === "0"){
             serving = "1"
         }
@@ -178,12 +188,12 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
         };
     };
     if (serving === "0"){
-        document.querySelector(".player0").classList.add("serving")
-        document.querySelector(".player1").classList.remove("serving")
+        document.querySelector(".player0").classList.add("serving");
+        document.querySelector(".player1").classList.remove("serving");
     }
     else {
-        document.querySelector(".player1").classList.add("serving")
-        document.querySelector(".player0").classList.remove("serving")
+        document.querySelector(".player1").classList.add("serving");
+        document.querySelector(".player0").classList.remove("serving");
     };
     //changing part (side)
 
@@ -206,18 +216,33 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
     };
     if (switchSets !== switchSetsBefore){
         if (writeHistory){
-            changeSide.play()
+            changeSide.play();
         };
         switchSetsBefore = switchSets;
     };
 
     if (switchSets) { //if it have to switch sets
-        document.querySelector(".writeSetsHere").textContent = sets[1] + " : " + sets[0]
+        document.querySelector(".writeSetsHere").textContent = sets[1] + " : " + sets[0];
     }
     else {
-        document.querySelector(".writeSetsHere").textContent = sets[0] + " : " + sets[1]
+        document.querySelector(".writeSetsHere").textContent = sets[0] + " : " + sets[1];
     };
 };
+
+function clickSwitchServing(){
+    if (gameHistory.length === 0){
+        if (startSwitchServing){
+            startSwitchServing = false;
+            document.querySelector(".player0").classList.add("serving");
+            document.querySelector(".player1").classList.remove("serving");
+
+        } else {
+            startSwitchServing = true;
+            document.querySelector(".player0").classList.remove("serving");
+            document.querySelector(".player1").classList.add("serving");
+        }
+    }
+}
 
 //function reset
 function reset() { //only for button
@@ -235,7 +260,8 @@ function reset() { //only for button
     document.querySelector(".player0").classList.add("serving")
     document.querySelector(".player1").classList.remove("serving")
     document.querySelector(".writeSetsHere").textContent = "0 : 0";
-    document.querySelector(".maxSetsInput").disabled = false; //it enables changching setToWin
+    document.querySelector(".sets").classList.remove("playing")
+    document.querySelector(".sets").classList.add("notPlaying")
     document.querySelector(".player0").classList.add("left"); //it move player to correct side
     document.querySelector(".player1").classList.add("right"); //it move player to correct side
     document.querySelector(".player0").classList.remove("right"); //it move player to correct side
@@ -255,7 +281,8 @@ function back() { //removes one turn
     document.querySelector(".player1").classList.remove("serving")
     document.querySelector(".writeSetsHere").textContent = "0 : 0";
     if (gameHistory.length === 0){ // if game history = 0
-        document.querySelector(".maxSetsInput").disabled = false; //it enables changching setToWin
+        document.querySelector(".sets").classList.remove("playing")
+        document.querySelector(".sets").classList.add("notPlaying")
     };
     //simulation part
     for (i = 0;i < gameHistory.length; i++){

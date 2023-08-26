@@ -121,7 +121,21 @@
     height: 50px;
     width: 100px;
 }
-
+.switchServingBTN {
+    height: 100%;
+    width: 100%;
+    border: 0;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    background: #f1d1d1;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: all 400ms;
+}
+.switchServingBTN:hover {
+    background: #e5c4c4;
+}
 .maxSetsInput {
     height: 100%;
     width: 100%;
@@ -130,12 +144,14 @@
     text-align: center;
     font-size: 30px;
     opacity: 0;
-    transition: all 400ms;
+    transition: all 600ms;
     
 }
 .maxSetsInput:focus {
     outline: none;
 }
+
+
 
 .maxSetsBTN {
     text-align: center;
@@ -155,12 +171,26 @@
 }
 
 /* if it is driven (google translate :D) */
-.sets.active .maxSetsInput {
-    transform: translateY(-50px);
+.sets.active.playing .maxSetsInput {
+    transform: translateY(-100%);
     border-radius: 20px 20px 0 0;
     opacity: 1;
+    background-color: #ffdf8ea6;
+    pointer-events: none;
+}
+.sets.active.notPlaying .maxSetsInput {
+    transform: translateY(-200%);
+    border-radius: 20px 20px 0 0;
+    opacity: 1;
+    background-color: #fff;
 
 }
+.sets.active.notPlaying .switchServingBTN {
+        transform: translateY(-200%);
+        border-radius: 0;
+        opacity: 1;
+}
+
 .sets.active .maxSetsBTN {
     border-radius: 0 0 20px 20px;
 }
