@@ -144,7 +144,7 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
             return;
         }
         
-        if (sets[0] + sets[1] % 2 === 0) { //if you have to switch serving
+        if ((sets[0] + sets[1]) % 2 === 0) { //if you have to switch serving
             switchServing = false;
         }
         else {
@@ -197,7 +197,7 @@ function scored(who,writeHistory) { //it writes score and check if someone won o
     };
     //changing part (side)
 
-    if ((sets[0] + sets[1]) % 2 === 0 && ((sets[0] + sets[1]) / 2) + 1 != setsToWin || Math.max(...score) <= 5 && ((sets[0] + sets[1]) / 2) + 1 === setsToWin) {
+    if ((sets[0] + sets[1]) % 2 === 0 && ((sets[0] + sets[1]) / 2) + 1 != setsToWin || Math.max(...score) < 5 && ((sets[0] + sets[1]) / 2) + 1 === setsToWin) {
         document.querySelector(".player0").classList.add("left");
         document.querySelector(".player1").classList.add("right");
         document.querySelector(".player0").classList.remove("right");
